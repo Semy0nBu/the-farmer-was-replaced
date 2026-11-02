@@ -1,0 +1,207 @@
+[
+  {
+    "file": "scripts/03_advanced_farms/hay.py",
+    "title": "Hay",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Carrots"
+    ],
+    "purpose": "Restore grassland and harvest mature grass.",
+    "start": "Any ordinary field.",
+    "uses_clear": false
+  },
+  {
+    "file": "scripts/03_advanced_farms/carrots.py",
+    "title": "Carrots",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Plant",
+      "Carrots"
+    ],
+    "purpose": "Keep the field planted with carrots.",
+    "start": "Keep hay and wood in stock.",
+    "uses_clear": false
+  },
+  {
+    "file": "scripts/03_advanced_farms/weird_substance.py",
+    "title": "Weird substance",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Plant",
+      "Carrots",
+      "Fertilizer"
+    ],
+    "purpose": "Fertilize each new carrot once to produce Weird_Substance.",
+    "start": "Keep hay, wood and fertilizer in stock.",
+    "uses_clear": false
+  },
+  {
+    "file": "scripts/03_advanced_farms/tree_bush.py",
+    "title": "Trees and bushes",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Plant",
+      "Trees"
+    ],
+    "purpose": "Grow separated trees and fill the other cells with bushes.",
+    "start": "Any ordinary field.",
+    "uses_clear": false
+  },
+  {
+    "file": "scripts/03_advanced_farms/tree_hay.py",
+    "title": "Trees and hay",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Plant",
+      "Trees",
+      "Carrots"
+    ],
+    "purpose": "Share the field between wood and grass.",
+    "start": "Any ordinary field.",
+    "uses_clear": false
+  },
+  {
+    "file": "scripts/03_advanced_farms/pumpkins.py",
+    "title": "Whole-field pumpkins",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Plant",
+      "Carrots",
+      "Pumpkins"
+    ],
+    "purpose": "Repair dead pumpkins in parallel and collect one merged field.",
+    "start": "Keep carrots in stock.",
+    "uses_clear": false
+  },
+  {
+    "file": "scripts/03_advanced_farms/sunflowers.py",
+    "title": "Sunflowers",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Plant",
+      "Carrots",
+      "Sunflowers"
+    ],
+    "purpose": "Harvest petals from high to low while preserving the bonus.",
+    "start": "A square field of at least 4 by 4; keep carrots in stock.",
+    "uses_clear": false
+  },
+  {
+    "file": "scripts/03_advanced_farms/poly_hay.py",
+    "title": "Hay polyculture",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Plant",
+      "Carrots",
+      "Trees",
+      "Costs",
+      "Dictionaries",
+      "Polyculture"
+    ],
+    "purpose": "Grow grass on primary cells and satisfy compatible companion requests.",
+    "start": "Keep hay and wood available for companion carrots.",
+    "uses_clear": false
+  },
+  {
+    "file": "scripts/03_advanced_farms/poly_wood.py",
+    "title": "Wood polyculture",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Plant",
+      "Carrots",
+      "Trees",
+      "Costs",
+      "Dictionaries",
+      "Polyculture"
+    ],
+    "purpose": "Grow primary trees with companions; water those trees when available.",
+    "start": "Keep hay and wood available for companion carrots. Watering is optional.",
+    "uses_clear": false
+  },
+  {
+    "file": "scripts/03_advanced_farms/poly_carrots.py",
+    "title": "Carrot polyculture",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Plant",
+      "Carrots",
+      "Trees",
+      "Costs",
+      "Dictionaries",
+      "Polyculture"
+    ],
+    "purpose": "Grow primary carrots with compatible companion crops.",
+    "start": "Keep hay and wood in stock.",
+    "uses_clear": false
+  }
+]
