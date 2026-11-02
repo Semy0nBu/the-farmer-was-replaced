@@ -1,0 +1,8 @@
+[
+  {"file":"scripts/01_first_steps/harvest_once.py","title":"First harvest","requires":[],"purpose":"Harvest the starting plot once before loops are unlocked.","start":"An ordinary grass plot ready for harvest.","uses_clear":false},
+  {"file":"scripts/01_first_steps/hay_loop.py","title":"Hay before the first speed upgrade","requires":["Loops"],"purpose":"Repeat harvesting before maturity checks are available.","start":"Starting grass plot, before the first Speed upgrade.","uses_clear":false},
+  {"file":"scripts/01_first_steps/hay_ready.py","title":"Hay with maturity checks","requires":["Loops","Speed"],"purpose":"Harvest mature grass on the original plot.","start":"A single Grassland plot growing grass.","uses_clear":false},
+  {"file":"scripts/01_first_steps/hay_column.py","title":"Hay on the first column","requires":["Loops","Speed","Expand (first column)"],"purpose":"Visit every plot on a narrow starting field.","start":"A one-column grass field, including the first 1x3 expansion.","uses_clear":false},
+  {"file":"scripts/01_first_steps/bush_plot.py","title":"Wood on one plot","requires":["Loops","Speed","Plant"],"purpose":"Harvest and replant bushes without sensors.","start":"The original Grassland or Soil plot, with grass or a bush.","uses_clear":false},
+  {"file":"scripts/01_first_steps/bush_column.py","title":"Wood on the first column","requires":["Loops","Speed","Plant","Expand (first column)"],"purpose":"Grow bushes along the narrow starting field.","start":"A one-column field with grass or bushes.","uses_clear":false}
+]
