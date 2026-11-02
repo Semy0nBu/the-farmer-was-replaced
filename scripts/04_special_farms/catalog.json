@@ -1,0 +1,101 @@
+[
+  {
+    "file": "scripts/04_special_farms/cactus_cached.py",
+    "title": "Cached cactus sorting",
+    "requires": [
+      "Loops",
+      "Speed (if / can_harvest)",
+      "Variables",
+      "Operators",
+      "Expand 2 (for / get_world_size)",
+      "Plant",
+      "Senses",
+      "Functions",
+      "Carrots (till)",
+      "Cactus",
+      "Lists"
+    ],
+    "purpose": "Sort rows from cached sizes, then columns, and harvest the complete field.",
+    "start": "Any ordinary square field; keep enough pumpkins for the missing cacti. Mega Farm is optional.",
+    "uses_clear": false
+  },
+  {
+    "file": "scripts/04_special_farms/cactus_bubble.py",
+    "title": "Cactus bubble sort",
+    "requires": [
+      "Loops",
+      "Speed (if / can_harvest)",
+      "Variables",
+      "Operators",
+      "Expand 2 (for / get_world_size)",
+      "Plant",
+      "Senses",
+      "Functions",
+      "Carrots (till)",
+      "Cactus",
+      "Lists"
+    ],
+    "purpose": "Readable adjacent-swap alternative with an early finish after the last inversion.",
+    "start": "Any ordinary square field; keep enough pumpkins for the missing cacti. Mega Farm is optional.",
+    "uses_clear": false
+  },
+  {
+    "file": "scripts/04_special_farms/maze_stations.py",
+    "title": "Mapped maze with waiting stations",
+    "requires": [
+      "Loops",
+      "Speed (if / can_harvest)",
+      "Variables",
+      "Operators",
+      "Expand 2 (for / get_world_size)",
+      "Plant",
+      "Senses",
+      "Functions",
+      "Mazes",
+      "Lists",
+      "Dictionaries"
+    ],
+    "purpose": "Map a fresh maze, assign treasure regions, and reuse it up to 300 times.",
+    "start": "Ordinary farm or a full-field maze. Supply Weird Substance; run no other substance consumer at the same time. Mega Farm is optional.",
+    "uses_clear": false
+  },
+  {
+    "file": "scripts/04_special_farms/dinosaur_cycle.py",
+    "title": "Dinosaur with early shortcuts",
+    "requires": [
+      "Loops",
+      "Speed (if / can_harvest)",
+      "Variables",
+      "Operators",
+      "Expand 2 (for / get_world_size)",
+      "Plant",
+      "Senses",
+      "Functions",
+      "Dinosaurs",
+      "Hats (Gold Hat)",
+      "Lists"
+    ],
+    "purpose": "Use early shortcuts on even fields, then switch to a simple full-field cycle.",
+    "start": "At least 2×2 and enough cactus for apples. Clears the farm for every new tail; odd sizes use short serpentine runs.",
+    "uses_clear": true
+  },
+  {
+    "file": "scripts/04_special_farms/dinosaur_safe.py",
+    "title": "Conservative dinosaur cycle",
+    "requires": [
+      "Loops",
+      "Speed (if / can_harvest)",
+      "Variables",
+      "Operators",
+      "Expand 2 (for / get_world_size)",
+      "Plant",
+      "Senses",
+      "Functions",
+      "Dinosaurs",
+      "Hats (Gold Hat)"
+    ],
+    "purpose": "Follow a fixed Hamiltonian cycle on even fields without shortcut bookkeeping or lists.",
+    "start": "At least 2×2 and enough cactus for apples. Clears the farm for every new tail; odd sizes use short serpentine runs.",
+    "uses_clear": true
+  }
+]
