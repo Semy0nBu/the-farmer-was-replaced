@@ -54,9 +54,20 @@ const allowed = {
 	Unlocks: new Set(['Plant', 'Carrots', 'Trees', 'Pumpkins', 'Sunflowers', 'Cactus', 'Dinosaurs', 'Mazes', 'Megafarm', 'Watering', 'Fertilizer', 'Polyculture'])
 };
 
+const mining = {
+	Entities: new Set([...allowed.Entities, 'Bamboo', 'Rice', 'Underground_Treasure']),
+	Grounds: new Set([...allowed.Grounds, 'Basalt', 'Bedrock', 'Clay', 'Coal', 'Dirt', 'Dynamite', 'Iron', 'Limestone', 'Mushroom', 'Perlite', 'Petrified_Pumpkin', 'Quartz', 'Rock', 'Sand', 'Soot', 'Treasure_Map']),
+	Items: new Set([...allowed.Items, 'Bamboo', 'Block', 'Coal', 'Dynamite', 'Iron', 'Mushroom', 'Quartz', 'Rice', 'Treasure_Map']),
+	Hats: new Set([...allowed.Hats, 'Mining_Hat']),
+	Unlocks: new Set([...allowed.Unlocks, 'Bamboo', 'Coal', 'Dynamite', 'Iron', 'Jump', 'Mining', 'Mushrooms', 'Petrified_Pumpkins', 'Prospecting', 'Pyramid', 'Quartz', 'Rice', 'Timing', 'Treasure_Map', 'Underground_Senses'])
+};
+const modules = new Map(scripts.filter(file => relative(file).startsWith('scripts/dlc/')).map(file => [path.basename(file, '.py'), file]));
+
 for (const file of scripts) {
 	const name = relative(file);
 	const source = await fs.readFile(file, 'utf8');
+	const dlc = name.startsWith('scripts/dlc/');
+	const constants = dlc ? mining : allowed;
 	const item = entries.get(name);
 	if (!item) {
 		fail(name, 'missing catalog entry');
@@ -73,11 +84,20 @@ for (const file of scripts) {
 		if (/[ \t]+$/.test(line)) fail(name, `trailing whitespace on line ${index + 1}`);
 	}
 	if (/\b(?:print|quick_print|leaderboard_run)\s*\(|\bLeaderboards\./.test(source)) fail(name, 'output or leaderboard API');
-	if (/\b(?:dig|can_dig|jump|place|collapse|get_pos_z|get_hardness|prospect)\s*\(/.test(source)) fail(name, 'DLC API');
-	if (/^\s*(?:from\s|import\s)/m.test(source)) fail(name, 'scripts must be self-contained');
+	if (!dlc && /\b(?:dig|can_dig|jump|place|collapse|get_pos_z|get_hardness|get_stability|prospect_iron|hover|push)\s*\(/.test(source)) fail(name, 'DLC API outside mining collection');
+	if (!dlc && /^\s*(?:from\s|import\s)/m.test(source)) fail(name, 'base-game scripts must be self-contained');
+	if (dlc) {
+		need('Import', 'local mining modules');
+		if (!/if __name__ == "__main__":/.test(source) && !item.library) fail(name, 'missing guarded entry point');
+		if (/^\s*from\s/m.test(source)) fail(name, 'use explicit local module imports');
+		const imports = [...source.matchAll(/^import ([a-z_][a-z_0-9]*)$/gm)].map(match => match[1]);
+		for (const dependency of imports) if (!modules.has(dependency)) fail(name, `missing local module ${dependency}`);
+		if (JSON.stringify([...imports].sort()) !== JSON.stringify([...(item.imports ?? [])].sort())) fail(name, 'catalog imports differ from source');
+		if (/\bunlock\s*\(/.test(source)) fail(name, 'research should be purchased by the player');
+	}
 	if (/\b(?:set_world_size|set_execution_speed)\s*\(/.test(source)) fail(name, 'farm should not change world size or execution speed');
 	for (const match of source.matchAll(/\b(Entities|Grounds|Items|Hats|Unlocks)\.([A-Za-z_][A-Za-z_0-9]*)/g)) {
-		if (!allowed[match[1]].has(match[2])) fail(name, `unexpected base-game constant ${match[0]}`);
+		if (!constants[match[1]].has(match[2])) fail(name, `unexpected ${dlc ? 'mining' : 'base-game'} constant ${match[0]}`);
 	}
 	if (/^\s*while\b/m.test(source)) need('Loops', 'while');
 	if (/^\s*def\b/m.test(source)) need('Functions', 'custom functions');
@@ -91,12 +111,25 @@ for (const file of scripts) {
 	if (/\b(?:min|max|abs|random)\s*\(/.test(source)) need('Utilities', 'utility functions');
 	if (/\.append\s*\(|=\s*\[/.test(source)) need('Lists', 'lists');
 	if (/=\s*\{|\bset\s*\(/.test(source)) need('Dictionaries', 'dictionaries or sets');
-	if (/\b(?:max_drones|num_drones|spawn_drone|has_finished|wait_for)\s*\(/.test(source) && !/num_unlocked\(Unlocks\.Megafarm\)/.test(source)) {
+	if (/\b(?:max_drones|num_drones|spawn_drone|has_finished|wait_for)\s*\(/.test(source) && !/num_unlocked\(Unlocks\.Megafarm\)/.test(source) && !(dlc && /^import dlc_common$/m.test(source))) {
 		need('Megafarm', 'unguarded drone APIs');
 	}
-	if (/\bclear\s*\(/.test(source) !== item.uses_clear) fail(name, 'clear() does not match catalog');
+	if (dlc && /\bget_time\s*\(/.test(source)) need('Timing', 'timed mining operations');
+	if (!dlc && /\bclear\s*\(/.test(source) !== item.uses_clear) fail(name, 'clear() does not match catalog');
 	if (/\bItems\.Water\b|\bget_water\s*\(/.test(source) && path.basename(file) !== 'poly_wood.py') fail(name, 'unexpected watering');
 	if (/\bItems\.Fertilizer\b/.test(source) && path.basename(file) !== 'weird_substance.py') fail(name, 'unexpected fertilizer');
+}
+
+for (const [name, file] of modules) {
+	const seen = new Set();
+	const visit = async current => {
+		if (seen.has(current)) { fail(relative(file), `cyclic mining import involving ${current}`); return; }
+		seen.add(current);
+		const entry = entries.get(relative(modules.get(current)));
+		for (const dependency of entry?.imports ?? []) if (modules.has(dependency)) await visit(dependency);
+		seen.delete(current);
+	};
+	await visit(name);
 }
 
 const privatePattern = /C:[\\/]Users[\\/]|\/Users\/|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]+|sk-[A-Za-z0-9]{24,}/;
@@ -122,4 +155,6 @@ if (errors.length) {
 	process.exitCode = 1;
 } else {
 	console.log(`Checked ${scripts.length} scripts, ${catalogs.length} catalogs, requirements, repository links and publication hygiene.`);
+	await import('./check-base-regressions.mjs');
+	await import('./check-dlc.mjs');
 }

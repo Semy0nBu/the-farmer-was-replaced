@@ -336,3 +336,149 @@ Follow a fixed Hamiltonian cycle on even fields without shortcut bookkeeping or 
 - **Requires:** Loops, Speed (if / can_harvest), Variables, Operators, Expand 2 (for / get_world_size), Plant, Senses, Functions, Dinosaurs, Hats (Gold Hat).
 - **Start:** At least 2×2 and enough cactus for apples. Clears the farm for every new tail; odd sizes use short serpentine runs.
 - **Field reset:** Calls `clear()` before each new dinosaur run. Existing crops are removed.
+
+## Mining expansion
+
+[Guide and installation](dlc.md). Create the listed helper windows before running a program. Research requirements below include both programming features and the target mining unlock.
+
+### DLC helpers
+
+[dlc_common.py](../scripts/dlc/dlc_common.py)
+
+Shared movement, guarded drone scheduling and mining helpers.
+
+- **Requires:** Loops, Speed, Expand 2, Variables, Operators, Functions, Lists, Senses, Import, Utilities, Hats, Mining.
+- **Start:** Import this module without running a farm. Sensor-based helpers need Underground Senses; the first blocks program can use the unsensed branch.
+- **Shared module:** Importing this file does not run a farm.
+
+### Blocks
+
+[blocks.py](../scripts/dlc/blocks.py)
+
+Collect ordinary blocks with short shafts or a parallel surface pass.
+
+- **Requires:** Loops, Speed, Expand 2, Variables, Operators, Functions, Lists, Senses, Import, Utilities, Hats, Mining.
+- **Start:** Run one farm at a time; the field is reset before every batch.
+- **Helper windows:** dlc_common. Install their dependencies too.
+- **Field reset:** Uses `clear()` through the shared mining module; existing crops are removed.
+
+### Coal
+
+[coal.py](../scripts/dlc/coal.py)
+
+Use a persistent group of row workers to mine the first sixteen layers.
+
+- **Requires:** Loops, Speed, Expand 2, Variables, Operators, Functions, Lists, Senses, Import, Utilities, Hats, Mining, Underground Senses, Coal, Timing.
+- **Start:** Start this file from any field; each world is cleared. Coal can be scarce on tiny fields.
+- **Helper windows:** dlc_common. Install their dependencies too.
+- **Field reset:** Uses `clear()` through the shared mining module; existing crops are removed.
+
+### Iron
+
+[iron.py](../scripts/dlc/iron.py)
+
+Scout for iron, follow nearby ore and optionally spend coal on prospecting.
+
+- **Requires:** Loops, Speed, Expand 2, Variables, Operators, Functions, Lists, Senses, Import, Utilities, Hats, Mining, Underground Senses, Iron, Coal, Timing.
+- **Start:** Coal is replenished through the Coal farm when prospecting is available.
+- **Helper windows:** dlc_common, coal. Install their dependencies too.
+- **Field reset:** Uses `clear()` through the shared mining module; existing crops are removed.
+
+### Quartz
+
+[quartz.py](../scripts/dlc/quartz.py)
+
+Locate quartz from four distance readings and mine the deduplicated targets.
+
+- **Requires:** Loops, Speed, Expand 2, Variables, Operators, Functions, Lists, Senses, Import, Utilities, Hats, Mining, Underground Senses, Quartz, Iron, Coal, Timing, Dictionaries.
+- **Start:** Keep iron in stock or allow the ore dependency chain to replenish it.
+- **Helper windows:** dlc_common, coal, iron. Install their dependencies too.
+- **Field reset:** Uses `clear()` through the shared mining module; existing crops are removed.
+
+### Rice
+
+[rice.py](../scripts/dlc/rice.py)
+
+Expose clay in one phase, then grow and harvest rice after all digging stops.
+
+- **Requires:** Loops, Speed, Expand 2, Variables, Operators, Functions, Lists, Senses, Import, Utilities, Hats, Mining, Underground Senses, Rice, Plant.
+- **Start:** The field is reset at startup and after the useful clay is exhausted.
+- **Helper windows:** dlc_common. Install their dependencies too.
+- **Field reset:** Uses `clear()` through the shared mining module; existing crops are removed.
+
+### Bamboo
+
+[bamboo.py](../scripts/dlc/bamboo.py)
+
+Grow dense bamboo beside access lanes and retain the bases after harvest.
+
+- **Requires:** Loops, Speed, Expand 2, Variables, Operators, Functions, Lists, Senses, Import, Utilities, Hats, Mining, Underground Senses, Bamboo, Plant, Carrots, Dictionaries, Timing.
+- **Start:** Keep rice available for the first planting; every worker finishes a bounded batch.
+- **Helper windows:** dlc_common. Install their dependencies too.
+- **Field reset:** Uses `clear()` through the shared mining module; existing crops are removed.
+
+### Mushrooms
+
+[mushrooms.py](../scripts/dlc/mushrooms.py)
+
+Match nearby mushroom pairs horizontally and vertically within small tiles.
+
+- **Requires:** Loops, Speed, Expand 2, Variables, Operators, Functions, Lists, Senses, Import, Utilities, Hats, Mining, Underground Senses, Mushrooms, Dictionaries.
+- **Start:** Keep blocks for filling gaps. Pairs across tile boundaries are not combined. Requires at least two cells per side.
+- **Helper windows:** dlc_common. Install their dependencies too.
+- **Field reset:** Uses `clear()` through the shared mining module; existing crops are removed.
+
+### Dynamite
+
+[dynamite.py](../scripts/dlc/dynamite.py)
+
+Use safe clue deductions and cash out a layer when no further safe move is known.
+
+- **Requires:** Loops, Speed, Expand 2, Variables, Operators, Functions, Lists, Senses, Import, Utilities, Hats, Mining, Underground Senses, Dynamite, Dictionaries, Timing.
+- **Start:** The solver can leave a puzzle incomplete; it does not guess an unknown cell.
+- **Helper windows:** dlc_common. Install their dependencies too.
+- **Field reset:** Uses `clear()` through the shared mining module; existing crops are removed.
+
+### Pyramids
+
+[pyramids.py](../scripts/dlc/pyramids.py)
+
+Find a limestone foundation, restore sand layers and harvest the reward.
+
+- **Requires:** Loops, Speed, Expand 2, Variables, Operators, Functions, Lists, Senses, Import, Utilities, Hats, Mining, Underground Senses, Pyramid.
+- **Start:** Requires a field at least 5 by 5 and enough blocks for placing sand.
+- **Helper windows:** dlc_common. Install their dependencies too.
+- **Field reset:** Uses `clear()` through the shared mining module; existing crops are removed.
+
+### Fossilized pumpkins
+
+[fossil_pumpkins.py](../scripts/dlc/fossil_pumpkins.py)
+
+Expose the local fossil cluster, then mine it in separate color phases.
+
+- **Requires:** Loops, Speed, Expand 2, Variables, Operators, Functions, Lists, Senses, Import, Utilities, Hats, Mining, Underground Senses, Petrified Pumpkins.
+- **Start:** Resets between clusters; search is local to a 9 by 9 window after discovery.
+- **Helper windows:** dlc_common. Install their dependencies too.
+- **Field reset:** Uses `clear()` through the shared mining module; existing crops are removed.
+
+### Treasure maps
+
+[treasure_maps.py](../scripts/dlc/treasure_maps.py)
+
+Read an underground map and follow every direction and dig instruction.
+
+- **Requires:** Loops, Speed, Expand 2, Variables, Operators, Functions, Lists, Senses, Import, Utilities, Hats, Mining, Underground Senses, Treasure Map, Dictionaries.
+- **Start:** The first D already digs the map. Resets after each treasure.
+- **Helper windows:** dlc_common. Install their dependencies too.
+- **Field reset:** Uses `clear()` through the shared mining module; existing crops are removed.
+
+### Layer mining
+
+[layer_mining.py](../scripts/dlc/layer_mining.py)
+
+Remove successive depth levels with barriers between color phases.
+
+- **Requires:** Loops, Speed, Expand 2, Variables, Operators, Functions, Lists, Senses, Import, Utilities, Hats, Mining, Underground Senses.
+- **Start:** Use a positive layer count for a finite run; ordinary cave-in losses are possible.
+- **Helper windows:** dlc_common. Install their dependencies too.
+- **Field reset:** Uses `clear()` through the shared mining module; existing crops are removed.

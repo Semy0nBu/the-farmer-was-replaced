@@ -12,7 +12,7 @@ Create a code window, give it the script's filename without `.py`, and paste the
 
 Keep the indentation. These scripts use tabs. Do not paste Markdown fences such as ` ```python ` into the game window.
 
-Each farming script is self-contained. You do not need to install Python packages or copy an editor stub into the game. Unless a script's guide says otherwise, its entry call is already at the bottom.
+Base-game scripts are self-contained. DLC programs import local code windows: create the modules named in the [mining setup](dlc.md#installing-the-mining-programs) before starting a farm. You do not need Python packages or an editor stub. Unless a script's guide says otherwise, its entry call is already at the bottom.
 
 ## Use an external editor
 
@@ -42,6 +42,9 @@ The save's generated `__builtins__.py` helps editor completion. Leave that gener
 - A new drone gets copied arguments and separate memory. Mutating its list does not update the parent's list.
 - `wait_for()` retrieves a worker's result. A barrier between sorting phases prevents workers from exchanging cells while another worker still relies on the old measurements.
 - `move()` normally wraps around the farm; cactus `swap()` does not wrap. Dinosaur movement does not wrap either.
+- A successful `dig()` collects the block dug directly. Blocks removed by a cave-in give no resources. Check the return value as well as the resulting depth.
+- `jump()` is a one-use shortcut for a program run. A later `clear()` does not grant another jump, and its return value is not a success flag.
+- Mining workers must finish before a global reset. Crop growth and puzzle steps can also require barriers between phases.
 
 ## Restarting a farm
 

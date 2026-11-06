@@ -108,3 +108,7 @@ Odd field sizes need a different route from an even square. Read the [dinosaur l
 | Infected carrots | Carrot planting inputs and fertilizer |
 
 Power is useful across the later farms. Water is optional in this collection and is used only by the tree polyculture version. Refill an upstream resource when a farm runs out, then resume the farm you were working on.
+
+## Continue underground
+
+For **The Miner Was Replaced**, follow the separate [mining progression guide](dlc.md). Start with blocks and Underground Senses, then choose the unlocked ore or crop program. The DLC files share a small local module rather than repeating the dispatcher in every program. They do not buy research automatically.

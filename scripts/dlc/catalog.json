@@ -1,0 +1,353 @@
+[
+  {
+    "file": "scripts/dlc/dlc_common.py",
+    "title": "DLC helpers",
+    "purpose": "Shared movement, guarded drone scheduling and mining helpers.",
+    "start": "Import this module without running a farm. Sensor-based helpers need Underground Senses; the first blocks program can use the unsensed branch.",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Import",
+      "Utilities",
+      "Hats",
+      "Mining"
+    ],
+    "uses_clear": false,
+    "imports": [],
+    "library": true
+  },
+  {
+    "file": "scripts/dlc/blocks.py",
+    "title": "Blocks",
+    "purpose": "Collect ordinary blocks with short shafts or a parallel surface pass.",
+    "start": "Run one farm at a time; the field is reset before every batch.",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Import",
+      "Utilities",
+      "Hats",
+      "Mining"
+    ],
+    "uses_clear": true,
+    "imports": [
+      "dlc_common"
+    ]
+  },
+  {
+    "file": "scripts/dlc/coal.py",
+    "title": "Coal",
+    "purpose": "Use a persistent group of row workers to mine the first sixteen layers.",
+    "start": "Start this file from any field; each world is cleared. Coal can be scarce on tiny fields.",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Import",
+      "Utilities",
+      "Hats",
+      "Mining",
+      "Underground Senses",
+      "Coal",
+      "Timing"
+    ],
+    "uses_clear": true,
+    "imports": [
+      "dlc_common"
+    ]
+  },
+  {
+    "file": "scripts/dlc/iron.py",
+    "title": "Iron",
+    "purpose": "Scout for iron, follow nearby ore and optionally spend coal on prospecting.",
+    "start": "Coal is replenished through the Coal farm when prospecting is available.",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Import",
+      "Utilities",
+      "Hats",
+      "Mining",
+      "Underground Senses",
+      "Iron",
+      "Coal",
+      "Timing"
+    ],
+    "uses_clear": true,
+    "imports": [
+      "dlc_common",
+      "coal"
+    ]
+  },
+  {
+    "file": "scripts/dlc/quartz.py",
+    "title": "Quartz",
+    "purpose": "Locate quartz from four distance readings and mine the deduplicated targets.",
+    "start": "Keep iron in stock or allow the ore dependency chain to replenish it.",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Import",
+      "Utilities",
+      "Hats",
+      "Mining",
+      "Underground Senses",
+      "Quartz",
+      "Iron",
+      "Coal",
+      "Timing",
+      "Dictionaries"
+    ],
+    "uses_clear": true,
+    "imports": [
+      "dlc_common",
+      "coal",
+      "iron"
+    ]
+  },
+  {
+    "file": "scripts/dlc/rice.py",
+    "title": "Rice",
+    "purpose": "Expose clay in one phase, then grow and harvest rice after all digging stops.",
+    "start": "The field is reset at startup and after the useful clay is exhausted.",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Import",
+      "Utilities",
+      "Hats",
+      "Mining",
+      "Underground Senses",
+      "Rice",
+      "Plant"
+    ],
+    "uses_clear": true,
+    "imports": [
+      "dlc_common"
+    ]
+  },
+  {
+    "file": "scripts/dlc/bamboo.py",
+    "title": "Bamboo",
+    "purpose": "Grow dense bamboo beside access lanes and retain the bases after harvest.",
+    "start": "Keep rice available for the first planting; every worker finishes a bounded batch.",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Import",
+      "Utilities",
+      "Hats",
+      "Mining",
+      "Underground Senses",
+      "Bamboo",
+      "Plant",
+      "Carrots",
+      "Dictionaries",
+      "Timing"
+    ],
+    "uses_clear": true,
+    "imports": [
+      "dlc_common"
+    ]
+  },
+  {
+    "file": "scripts/dlc/mushrooms.py",
+    "title": "Mushrooms",
+    "purpose": "Match nearby mushroom pairs horizontally and vertically within small tiles.",
+    "start": "Keep blocks for filling gaps. Pairs across tile boundaries are not combined. Requires at least two cells per side.",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Import",
+      "Utilities",
+      "Hats",
+      "Mining",
+      "Underground Senses",
+      "Mushrooms",
+      "Dictionaries"
+    ],
+    "uses_clear": true,
+    "imports": [
+      "dlc_common"
+    ]
+  },
+  {
+    "file": "scripts/dlc/dynamite.py",
+    "title": "Dynamite",
+    "purpose": "Use safe clue deductions and cash out a layer when no further safe move is known.",
+    "start": "The solver can leave a puzzle incomplete; it does not guess an unknown cell.",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Import",
+      "Utilities",
+      "Hats",
+      "Mining",
+      "Underground Senses",
+      "Dynamite",
+      "Dictionaries",
+      "Timing"
+    ],
+    "uses_clear": true,
+    "imports": [
+      "dlc_common"
+    ]
+  },
+  {
+    "file": "scripts/dlc/pyramids.py",
+    "title": "Pyramids",
+    "purpose": "Find a limestone foundation, restore sand layers and harvest the reward.",
+    "start": "Requires a field at least 5 by 5 and enough blocks for placing sand.",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Import",
+      "Utilities",
+      "Hats",
+      "Mining",
+      "Underground Senses",
+      "Pyramid"
+    ],
+    "uses_clear": true,
+    "imports": [
+      "dlc_common"
+    ]
+  },
+  {
+    "file": "scripts/dlc/fossil_pumpkins.py",
+    "title": "Fossilized pumpkins",
+    "purpose": "Expose the local fossil cluster, then mine it in separate color phases.",
+    "start": "Resets between clusters; search is local to a 9 by 9 window after discovery.",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Import",
+      "Utilities",
+      "Hats",
+      "Mining",
+      "Underground Senses",
+      "Petrified Pumpkins"
+    ],
+    "uses_clear": true,
+    "imports": [
+      "dlc_common"
+    ]
+  },
+  {
+    "file": "scripts/dlc/treasure_maps.py",
+    "title": "Treasure maps",
+    "purpose": "Read an underground map and follow every direction and dig instruction.",
+    "start": "The first D already digs the map. Resets after each treasure.",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Import",
+      "Utilities",
+      "Hats",
+      "Mining",
+      "Underground Senses",
+      "Treasure Map",
+      "Dictionaries"
+    ],
+    "uses_clear": true,
+    "imports": [
+      "dlc_common"
+    ]
+  },
+  {
+    "file": "scripts/dlc/layer_mining.py",
+    "title": "Layer mining",
+    "purpose": "Remove successive depth levels with barriers between color phases.",
+    "start": "Use a positive layer count for a finite run; ordinary cave-in losses are possible.",
+    "requires": [
+      "Loops",
+      "Speed",
+      "Expand 2",
+      "Variables",
+      "Operators",
+      "Functions",
+      "Lists",
+      "Senses",
+      "Import",
+      "Utilities",
+      "Hats",
+      "Mining",
+      "Underground Senses"
+    ],
+    "uses_clear": true,
+    "imports": [
+      "dlc_common"
+    ]
+  }
+]
