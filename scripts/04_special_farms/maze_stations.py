@@ -2,6 +2,14 @@ ds = [North, East, South, West]
 xs = [0, 1, 0, -1]
 ys = [1, 0, -1, 0]
 
+def wait_map(job,size):
+	while not has_finished(job):
+		if get_world_size() != size or num_drones() < 2:
+			if has_finished(job):
+				break
+			return None, None, None
+	return wait_for(job)
+
 def scan(cur,size,g,edges=None):
 	x = cur % size
 	y = cur // size
@@ -35,10 +43,12 @@ def map_maze(size,first=-1,slots=1):
 		seen[cur] = True
 	stack = []
 	jobs = []
+	valid = True
 	while True:
 		ent = get_entity_type()
 		if get_world_size() != size or (ent != Entities.Hedge and ent != Entities.Treasure):
-			return None, None, None
+			valid = False
+			break
 		if cur not in checked:
 			scan(cur,size,g)
 			checked[cur] = True
@@ -66,17 +76,18 @@ def map_maze(size,first=-1,slots=1):
 				break
 			dir = (stack.pop() + 2) % 4
 			if not move(ds[dir]):
-				return None, None, None
+				valid = False
+				break
 			cur = g[cur][dir]
 		else:
 			if not move(ds[dir]):
-				return None, None, None
+				valid = False
+				break
 			stack.append(dir)
 			cur = g[cur][dir]
 			seen[cur] = True
-	valid = True
 	for job in jobs:
-		part, pos, marked = wait_for(job)
+		part, pos, marked = wait_map(job,size)
 		if part == None:
 			valid = False
 		else:
